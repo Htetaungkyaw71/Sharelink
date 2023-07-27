@@ -16,9 +16,11 @@ const Home = () => {
   console.log(data);
   return (
     <>
-      <div className="grid grid-cols-3 container mx-auto mt-5">
-        <Mockup />
+      <div className="grid grid-cols-5 container mx-auto mt-5">
         <div className="col-span-2">
+          <Mockup />
+        </div>
+        <div className="col-span-3">
           <Form />
         </div>
       </div>
