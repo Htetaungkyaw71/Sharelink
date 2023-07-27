@@ -10,9 +10,14 @@ const LinkSlice = createSlice({
       state[id] = { name: "", email: "", links: [] };
       saveState(state);
     },
+    addLink: (state, action) => {
+      const id = action.payload[0];
+      state[id] = { ...state[id], links: action.payload[1] };
+      saveState(state);
+    },
   },
 });
 
-export const { createId } = LinkSlice.actions;
+export const { createId, addLink } = LinkSlice.actions;
 
 export default LinkSlice.reducer;
