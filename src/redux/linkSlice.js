@@ -1,16 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { saveState } from "./localStorage";
 
-const linkSlice = createSlice({
-  name: "linkSlice",
+const LinkSlice = createSlice({
+  name: "LinkSlice",
   initialState: {},
   reducers: {
-    // addProject: (state, action) => {
-    //   state[action.payload] = { todo: [], doing: [], done: [] };
-    //   let copyState = { ...state };
-    // },
+    createId: (state, action) => {
+      const id = action.payload;
+      state[id] = { name: "", email: "", links: [] };
+      saveState(state);
+    },
   },
 });
 
-export const { addProject } = linkSlice.actions;
+export const { createId } = LinkSlice.actions;
 
-export default linkSlice.reducer;
+export default LinkSlice.reducer;
