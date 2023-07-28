@@ -12,14 +12,23 @@ const Detail = () => {
   if (keys.length === 0) {
     dispatch(createId(uuidv4()));
   }
+
+  const name = data[keys[0]].name;
+  const email = data[keys[0]].email;
+
+  const profile = {
+    name,
+    email,
+  };
+
   return (
     <>
       <div className="grid grid-cols-5 container mx-auto mt-5">
         <div className="col-span-2">
-          <Mockup />
+          <Mockup userid={keys[0]} />
         </div>
         <div className="col-span-3">
-          <ProfileForm userid={keys[0]} />
+          <ProfileForm userid={keys[0]} profile={profile} />
         </div>
       </div>
     </>

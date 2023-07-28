@@ -18,7 +18,7 @@ const Navbar = () => {
         <div>
           <Link
             to="/"
-            className="px-5 sm:px-5 md:px-5 lg:px-12 xl:px-12  text-md font-semibold py-2 rounded-lg hover:duration-500  text-gray-500 hover:bg-gray-200 hover:text-[#8d6ff8]"
+            className="px-5 sm:px-5 md:px-5 lg:px-12 xl:px-12  text-md font-semibold focus:bg-gray-200 active:bg-gray-200 py-2 rounded-lg hover:duration-500  text-gray-500 hover:bg-gray-200 hover:text-[#8d6ff8] focus:text-[#8d6ff8] active:text-[#8d6ff8] hover:text-[#8d6ff8]"
           >
             <LiaLinkSolid className="inline mr-0 sm:mr-0 md:mr-0 lg:mr-1 xl:mr-1 -mt-1" />
             <span className="hidden sm:hidden md:hidden lg:inline xl:inline">
@@ -27,7 +27,7 @@ const Navbar = () => {
           </Link>
           <Link
             to="/detail"
-            className="px-5 sm:px-5 md:px-5 lg:px-5 xl:px-5  text-md font-semibold py-2 rounded-lg text-gray-500 hover:bg-gray-200 hover:text-[#8d6ff8] hover:duration-500 "
+            className="px-5 sm:px-5 md:px-5 lg:px-5 xl:px-5  text-md font-semibold py-2 rounded-lg text-gray-500 hover:bg-gray-200 hover:text-[#8d6ff8] hover:duration-500 active:text-[#8d6ff8] focus:text-[#8d6ff8] focus:bg-gray-200 active:bg-gray-200"
           >
             <CgProfile className="inline mr-0 sm:mr-0 md:mr-0 lg:mr-1 xl:mr-1 -mt-1" />
             <span className="hidden sm:hidden md:hidden lg:inline xl:inline">

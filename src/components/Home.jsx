@@ -18,7 +18,7 @@ const Home = () => {
     <>
       <div className="grid grid-cols-5 container mx-auto mt-5">
         <div className="col-span-2">
-          <Mockup />
+          <Mockup userid={keys[0]} />
         </div>
         <div className="col-span-3">
           <Form links={links} userid={keys[0]} />
