@@ -7,13 +7,13 @@ import Mockup from "./Mockup";
 const Home = () => {
   let data = useSelector((state) => state.LinkSlice);
   const dispatch = useDispatch();
+  let keys = Object.keys(data);
 
-  if (Object.keys(data).length === 0) {
-    console.log("count");
+  if (keys.length === 0) {
     dispatch(createId(uuidv4()));
   }
+  const links = data[keys[0]].links;
 
-  console.log(data);
   return (
     <>
       <div className="grid grid-cols-5 container mx-auto mt-5">
@@ -21,7 +21,7 @@ const Home = () => {
           <Mockup />
         </div>
         <div className="col-span-3">
-          <Form />
+          <Form links={links} userid={keys[0]} />
         </div>
       </div>
     </>

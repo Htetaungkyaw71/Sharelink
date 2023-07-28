@@ -1,25 +1,44 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import InputLink from "./InputLink";
 import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { addLink } from "../redux/LinkSlice";
 
-const Form = () => {
-  let [inputArr, setinputArr] = useState([]);
-  let [count, setCount] = useState(0);
+const Form = ({ links, userid }) => {
+  let [hidden, setHidden] = useState("hidden");
+  const dispatch = useDispatch();
+  let [inputArr, setinputArr] = useState(links);
+  let [error, setError] = useState(false);
   const handleCreate = () => {
     const id = uuidv4();
-    setCount(count + 1);
-    setinputArr((prev) => [
-      ...prev,
-      { id: id, el: <InputLink count={count} /> },
-    ]);
+    setinputArr((prev) => [...prev, { id: id, platform: "", link: "" }]);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // let formdata = new FormData(e.target)
-    // let obj = {
-    //     formdata.
-    // }
+    const hasEmptyFields = inputArr.some(
+      (obj) => obj.platform === "" || obj.link === "",
+    );
+    if (hasEmptyFields) {
+      setError(hasEmptyFields);
+      setHidden("block");
+      setTimeout(() => {
+        setHidden("hidden");
+      }, [3000]);
+    } else {
+      setError(hasEmptyFields);
+      setHidden("block");
+      setTimeout(() => {
+        setHidden("hidden");
+      }, [3000]);
+      dispatch(addLink([userid, inputArr]));
+    }
   };
+
+  console.log("userid", userid);
+  console.log("inputArr", inputArr);
+
+  console.log(error);
   return (
     <div className="bg-white p-10 rounded-lg">
       <h1 className="text-3xl text-gray-700 font-bold text-left mt-3">
@@ -35,12 +54,35 @@ const Form = () => {
       >
         +Add new link
       </button>
+      {error ? (
+        <h1 className={hidden}>Invalid Input</h1>
+      ) : (
+        <h1 className={hidden}>Saved Links</h1>
+      )}
       <form>
-        {inputArr.map((input) => (
-          <div key={input.id}>{input.el}</div>
-        ))}
-
-        <button onClick={handleSubmit}>Save</button>
+        {inputArr.length !== 0 && (
+          <>
+            <div>
+              {inputArr.map((input, index) => (
+                <div key={input.id}>
+                  <InputLink
+                    input={input}
+                    index={index}
+                    setinputArr={setinputArr}
+                    inputArr={inputArr}
+                    userid={userid}
+                  />
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={handleSubmit}
+              className="p-2 bg-[#8d6ff8] text-white rounded-lg mt-4"
+            >
+              Save
+            </button>
+          </>
+        )}
       </form>
     </div>
   );
