@@ -3,7 +3,18 @@ import { LiaLinkSolid } from "react-icons/lia";
 import { CgProfile } from "react-icons/cg";
 import { AiFillEye } from "react-icons/ai";
 import img from "../assets/link.png";
+import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
+import { createId } from "../redux/LinkSlice";
+
 const Navbar = () => {
+  let data = useSelector((state) => state.LinkSlice);
+  const dispatch = useDispatch();
+  let keys = Object.keys(data);
+
+  if (keys.length === 0) {
+    dispatch(createId(uuidv4()));
+  }
   return (
     <>
       <div className="flex justify-between p-3 bg-white mt-3 items-center container mx-auto rounded-lg text-black">
@@ -37,7 +48,7 @@ const Navbar = () => {
         </div>
         <div>
           <Link
-            to="/"
+            to={`/${keys[0]}`}
             className="border-2 border-[#8d6ff8] py-1 px-2 rounded-lg text-[#8d6ff8] font-semibold hover:bg-[#8d6ff8] hover:text-white hover:duration-500 "
           >
             <AiFillEye className="inline sm:inline md:inline lg:hidden xl:hidden -mt-1 " />
