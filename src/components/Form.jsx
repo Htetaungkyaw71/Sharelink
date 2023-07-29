@@ -4,12 +4,17 @@ import InputLink from "./InputLink";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { addLink } from "../redux/LinkSlice";
+import Info from "./helper/Info";
+import Error from "./helper/Error";
+import { validate } from "./helper/validate";
 
 const Form = ({ links, userid }) => {
   let [hidden, setHidden] = useState("hidden");
   const dispatch = useDispatch();
   let [inputArr, setinputArr] = useState(links);
   let [error, setError] = useState(false);
+  let [validateArr, setvalidateArr] = useState([]);
+
   const handleCreate = () => {
     const id = uuidv4();
     setinputArr((prev) => [...prev, { id: id, platform: "", link: "" }]);
@@ -26,21 +31,46 @@ const Form = ({ links, userid }) => {
         setHidden("hidden");
       }, [3000]);
     } else {
-      setError(hasEmptyFields);
-      setHidden("block");
-      setTimeout(() => {
-        setHidden("hidden");
-      }, [3000]);
-      dispatch(addLink([userid, inputArr]));
+      let varr = validate(inputArr);
+      setvalidateArr(varr);
+      if (varr.length !== 0) {
+        setError(true);
+        setHidden("block");
+        setTimeout(() => {
+          setHidden("hidden");
+        }, [3000]);
+      } else {
+        setError(false);
+        setHidden("block");
+        setTimeout(() => {
+          setHidden("hidden");
+        }, [3000]);
+        dispatch(addLink([userid, inputArr]));
+      }
     }
   };
 
-  console.log("userid", userid);
-  console.log("inputArr", inputArr);
-
-  console.log(error);
   return (
     <div className="bg-white p-10 rounded-lg">
+      {error ? (
+        <h1 className={hidden}>
+          {validateArr.length !== 0 ? (
+            validateArr.map((i) => (
+              <div key={i}>
+                <Error
+                  message={`Invalid URL Error: ${i} url is invalid. Please provide valide ${i} url `}
+                />
+              </div>
+            ))
+          ) : (
+            <Error message="Required Field Error : Input field is required. Please enter a value." />
+          )}
+        </h1>
+      ) : (
+        <div className={hidden}>
+          <Info />
+        </div>
+      )}
       <h1 className="text-3xl text-gray-700 font-bold text-left mt-3">
         Customize your links
       </h1>
@@ -54,11 +84,7 @@ const Form = ({ links, userid }) => {
       >
         +Add new link
       </button>
-      {error ? (
-        <h1 className={hidden}>Invalid Input</h1>
-      ) : (
-        <h1 className={hidden}>Saved Links</h1>
-      )}
+
       <form>
         {inputArr.length !== 0 && (
           <>
@@ -75,6 +101,7 @@ const Form = ({ links, userid }) => {
                 </div>
               ))}
             </div>
+            <hr className="mt-10 mb-3" />
             <button
               onClick={handleSubmit}
               className="p-2 bg-[#8d6ff8] text-white rounded-lg mt-4"

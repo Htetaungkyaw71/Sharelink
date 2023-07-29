@@ -2,6 +2,7 @@
 import { useDispatch } from "react-redux";
 import { addProfile } from "../redux/LinkSlice";
 import { useState } from "react";
+import Error from "./helper/Error";
 
 const ProfileForm = ({ userid, profile }) => {
   const [error, setError] = useState(false);
@@ -25,6 +26,11 @@ const ProfileForm = ({ userid, profile }) => {
 
   return (
     <div className="bg-white p-10 rounded-lg">
+      {error && (
+        <div className={hidden}>
+          <Error message="Required Field Error : Input field is required. Please enter a value." />
+        </div>
+      )}
       <h1 className="text-3xl text-gray-700 font-bold text-left mt-3">
         Profile Details
       </h1>
@@ -32,7 +38,6 @@ const ProfileForm = ({ userid, profile }) => {
         Add your details to create a personal touch to your profile
       </p>
       <div className="mt-3">
-        {error && <div className={hidden}>Invalid Input</div>}
         <form onSubmit={handleSubmit}>
           <div className="mt-5">
             <label>Name</label>

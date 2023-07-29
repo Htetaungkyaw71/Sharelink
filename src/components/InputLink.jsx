@@ -23,7 +23,6 @@ const InputLink = ({ input, index, setinputArr, inputArr, userid }) => {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      console.log("update");
       let arr = inputArr.map((a) => {
         var returnValue = { ...a };
 
@@ -67,6 +66,12 @@ const InputLink = ({ input, index, setinputArr, inputArr, userid }) => {
           <option value="github">Github</option>
           <option value="facebook">Facebook</option>
           <option value="linkedin">Linkedin</option>
+          <option value="pinterest">Pinterest</option>
+          <option value="medium">Medium</option>
+          <option value="instagram">Instagram</option>
+          <option value="dribbble">Dribbble</option>
+          <option value="youtube">Youtube</option>
+          <option value="twitter">Twitter</option>
         </select>
         <label>Link</label>
         <input
