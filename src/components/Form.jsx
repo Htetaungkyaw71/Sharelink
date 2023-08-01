@@ -1,23 +1,33 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import InputLink from "./InputLink";
-import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
-import { addLink } from "../redux/LinkSlice";
 import Info from "./helper/Info";
 import Error from "./helper/Error";
 import { validate } from "./helper/validate";
+import { useCreatelinkMutation } from "../redux/linkServices";
 
 const Form = ({ links, userid }) => {
   let [hidden, setHidden] = useState("hidden");
-  const dispatch = useDispatch();
   let [inputArr, setinputArr] = useState(links);
+  console.log(inputArr);
   let [error, setError] = useState(false);
+  let [loading, setLoading] = useState(false);
   let [validateArr, setvalidateArr] = useState([]);
-
-  const handleCreate = () => {
-    const id = uuidv4();
-    setinputArr((prev) => [...prev, { id: id, platform: "", link: "" }]);
+  const [createLink] = useCreatelinkMutation();
+  const handleCreate = async () => {
+    setLoading(true);
+    try {
+      await createLink({ platform: "github", url: "" })
+        .unwrap()
+        .then((fulfilled) => {
+          const url = fulfilled.data;
+          setinputArr((prev) => [...prev, url]);
+          setLoading(false);
+        });
+    } catch (error) {
+      setLoading(false);
+      setError(error.data.message);
+    }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,7 +55,7 @@ const Form = ({ links, userid }) => {
         setTimeout(() => {
           setHidden("hidden");
         }, [3000]);
-        dispatch(addLink([userid, inputArr]));
+        console.log(inputArr);
       }
     }
   };
@@ -80,9 +90,10 @@ const Form = ({ links, userid }) => {
       </p>
       <button
         onClick={handleCreate}
-        className="w-full p-2 border-[#8d6ff8] border-2 text-[#8d6ff8] font-bold mt-5 rounded-lg hover:bg-[#8d6ff8] hover:text-white hover:duration-500 "
+        className={`w-full p-2 border-[#8d6ff8] border-2 text-[#8d6ff8] font-bold mt-5 rounded-lg hover:bg-[#8d6ff8] hover:text-white hover:duration-500  `}
+        disabled={loading}
       >
-        +Add new link
+        {loading ? "Loading..." : "+Add new link"}
       </button>
 
       <form>

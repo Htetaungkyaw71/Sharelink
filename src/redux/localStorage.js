@@ -1,4 +1,4 @@
-const KEY = "user";
+const KEY = "data";
 export function loadState() {
   try {
     const serializedState = localStorage.getItem(KEY);

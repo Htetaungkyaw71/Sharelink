@@ -1,17 +1,16 @@
 /* eslint-disable react/prop-types */
-import { useDispatch } from "react-redux";
-import { addProfile } from "../redux/LinkSlice";
 import { useState } from "react";
 import Error from "./helper/Error";
+import { useUpdateUserMutation } from "../redux/UserServices";
 
-const ProfileForm = ({ userid, profile }) => {
+const ProfileForm = ({ profile }) => {
   const [error, setError] = useState(false);
   const [hidden, setHidden] = useState("hidden");
-  const [data, setData] = useState(profile);
-  const dispatch = useDispatch();
-  const handleSubmit = (e) => {
+  const [userData, setuserData] = useState(profile);
+  const [updateUser] = useUpdateUserMutation();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (data.name === "" || data.email === "") {
+    if (userData.name === "" || userData.email === "") {
       setError(true);
       setHidden("block");
       setTimeout(() => {
@@ -20,7 +19,16 @@ const ProfileForm = ({ userid, profile }) => {
     } else {
       setError(false);
       setHidden("hidden");
-      dispatch(addProfile([userid, data]));
+      const { id, name, email } = userData;
+      try {
+        await updateUser({ id, name, email })
+          .unwrap()
+          .then((fulfilled) => {
+            console.log(fulfilled);
+          });
+      } catch (error) {
+        setError(error.data.message);
+      }
     }
   };
 
@@ -45,9 +53,9 @@ const ProfileForm = ({ userid, profile }) => {
               className="ml-10 p-1 border-2 focus:outline-[#8d6ff8] rounded-lg shadow-sm"
               type="text"
               name="name"
-              value={data.name}
+              value={userData.name}
               onChange={(e) =>
-                setData((prev) => ({ ...prev, name: e.target.value }))
+                setuserData((prev) => ({ ...prev, name: e.target.value }))
               }
             />
           </div>
@@ -57,9 +65,9 @@ const ProfileForm = ({ userid, profile }) => {
               type="email"
               name="email"
               className="ml-11 p-1 border-2 focus:outline-[#8d6ff8] rounded-lg shadow-sm"
-              value={data.email}
+              value={userData.email}
               onChange={(e) =>
-                setData((prev) => ({ ...prev, email: e.target.value }))
+                setuserData((prev) => ({ ...prev, email: e.target.value }))
               }
             />
           </div>

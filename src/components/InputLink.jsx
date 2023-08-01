@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { addLink } from "../redux/LinkSlice";
+import { useDeletelinkMutation } from "../redux/linkServices";
 
 /* eslint-disable react/prop-types */
-const InputLink = ({ input, index, setinputArr, inputArr, userid }) => {
+const InputLink = ({ input, index, setinputArr, inputArr }) => {
   const [first, setFirst] = useState(true);
-  const dispatch = useDispatch();
-
+  const [loading, setLoading] = useState(false);
+  const [deleteLink] = useDeletelinkMutation();
   const [data, setData] = useState({
     id: input.id,
     platform: input.platform !== "" ? input.platform : "github",
@@ -40,14 +39,27 @@ const InputLink = ({ input, index, setinputArr, inputArr, userid }) => {
     return () => clearTimeout(timeoutId);
   }, [data]);
 
-  const handleRemove = (e) => {
+  const handleRemove = async (e) => {
     e.preventDefault();
-    let newArr = inputArr.filter((i) => i.id !== input.id);
-    setinputArr(newArr);
-    dispatch(addLink([userid, newArr]));
+    setLoading(true);
+    try {
+      await deleteLink({ id: input.id })
+        .unwrap()
+        .then((fulfilled) => {
+          const url = fulfilled.data;
+          let newArr = inputArr.filter((i) => i.id !== url.id);
+          setinputArr(newArr);
+          setLoading(false);
+        });
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
 
-  return (
+  return loading ? (
+    <div className="text-center mt-10 text-red-400">Deleting...</div>
+  ) : (
     <div className="mt-10">
       <div className="flex justify-between">
         <h1 className="text-gray-500 font-bold ">Link {index + 1}</h1>
