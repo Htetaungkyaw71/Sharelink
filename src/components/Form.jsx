@@ -6,7 +6,6 @@ import { useCreatelinkMutation } from "../redux/linkServices";
 
 const Form = ({ links, userid, refetch }) => {
   let [inputArr, setinputArr] = useState(links);
-  console.log(inputArr);
   let [error, setError] = useState(false);
   let [loading, setLoading] = useState(false);
   const [createLink] = useCreatelinkMutation();
@@ -67,7 +66,6 @@ const Form = ({ links, userid, refetch }) => {
                 </div>
               ))}
             </div>
-            <hr className="mt-10 mb-3" />
           </>
         )}
       </form>

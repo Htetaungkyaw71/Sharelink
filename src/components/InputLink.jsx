@@ -86,7 +86,7 @@ const InputLink = ({ input, index, setinputArr, inputArr, refetch }) => {
           {validate.length !== 0 && (
             <div>
               <Error
-                message={`Invalid URL Error: ${validate} url is invalid. Please provide valide ${validate} url `}
+                message={`Invalid URL Error: ${validate} url is invalid. Please provide valid ${validate} url `}
               />
             </div>
           )}

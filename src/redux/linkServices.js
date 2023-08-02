@@ -21,6 +21,16 @@ export const linkServices = createApi({
         };
       },
       transformResponse: (response) => response,
+      keepUnusedDataFor: 0,
+    }),
+    Getpreview: builder.query({
+      query: ({ name }) => {
+        return {
+          url: `preview/${name}`,
+          method: "GET",
+        };
+      },
+      transformResponse: (response) => response,
     }),
     Createlink: builder.mutation({
       query: ({ platform, url }) => ({
@@ -59,4 +69,5 @@ export const {
   useCreatelinkMutation,
   useDeletelinkMutation,
   useUpdatelinkMutation,
+  useGetpreviewQuery,
 } = linkServices;

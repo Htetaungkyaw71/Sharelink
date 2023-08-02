@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+
 import {
   FaFacebook,
   FaGithub,
@@ -13,9 +13,11 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import { useGetpreviewQuery } from "../redux/linkServices";
+import Loading from "./Loading";
 
 const Preview = () => {
-  let { id } = useParams();
+  let { name } = useParams();
   let p = {
     facebook: [<FaFacebook />, "bg-blue-500"],
     linkedin: [<FaLinkedin />, "bg-[#65C3E8]"],
@@ -27,8 +29,14 @@ const Preview = () => {
     pinterest: [<FaPinterest />, "bg-[#DF0022]"],
     dribbble: [<FaDribbble />, "bg-[#F082AC]"],
   };
-  let data = useSelector((state) => state.LinkSlice);
-  let obj = data[id];
+  const { data, isLoading } = useGetpreviewQuery({ name });
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  let obj = data.data;
+
   return (
     <div>
       <div className="h-60 bg-[#8F71F9] rounded-b-3xl  flex justify-center"></div>
@@ -41,7 +49,7 @@ const Preview = () => {
               obj.links.map((link) => (
                 <a
                   key={link.id}
-                  href={link.link}
+                  href={link.url}
                   target="_blank"
                   rel="noreferrer"
                   className={`${
@@ -63,7 +71,7 @@ const Preview = () => {
                 {obj.links.map((link) => (
                   <a
                     key={link.id}
-                    href={link.link}
+                    href={link.url}
                     target="_blank"
                     rel="noreferrer"
                     className={`${

@@ -1,27 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-
 import { Suspense, lazy } from "react";
-import img from "./assets/link.png";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Protect from "./components/Protect";
+import Loading from "./components/Loading";
 
 const Home = lazy(() => import("./components/Home"));
 const Detail = lazy(() => import("./components/Detail"));
-// const Preview = lazy(() => import("./components/Preview"));
+const Preview = lazy(() => import("./components/Preview"));
 
 function App() {
   return (
     <BrowserRouter>
-      <Suspense
-        fallback={
-          <div className="flex justify-center items-center pt-60">
-            <img src={img} alt="loader" className="w-10 h-10 animate-spin" />
-          </div>
-        }
-      >
-        <Navbar />
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route
             path="/"
@@ -42,7 +33,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
 
-          {/* <Route path="/:id" element={<Preview />} /> */}
+          <Route path="/:name" element={<Preview />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

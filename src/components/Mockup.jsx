@@ -15,7 +15,6 @@ import {
 import { AiOutlineArrowRight } from "react-icons/ai";
 
 const Mockup = ({ user }) => {
-  console.log(user);
   let p = {
     facebook: [<FaFacebook />, "bg-blue-500"],
     linkedin: [<FaLinkedin />, "bg-[#65C3E8]"],

@@ -3,9 +3,11 @@ import { useState } from "react";
 import Error from "./helper/Error";
 import { useUpdateUserMutation } from "../redux/UserServices";
 
-const ProfileForm = ({ profile }) => {
+const ProfileForm = ({ profile, refetch }) => {
   const [error, setError] = useState(false);
+  const [Servererror, setServerError] = useState("");
   const [hidden, setHidden] = useState("hidden");
+  const [serverhidden, setserverHidden] = useState("hidden");
   const [userData, setuserData] = useState(profile);
   const [updateUser] = useUpdateUserMutation();
   const handleSubmit = async (e) => {
@@ -21,13 +23,16 @@ const ProfileForm = ({ profile }) => {
       setHidden("hidden");
       const { id, name, email } = userData;
       try {
-        await updateUser({ id, name, email })
-          .unwrap()
-          .then((fulfilled) => {
-            console.log(fulfilled);
-          });
+        await updateUser({ id, name, email }).unwrap();
+        refetch();
+        setServerError("");
       } catch (error) {
-        setError(error.data.message);
+        setserverHidden("block");
+        setTimeout(() => {
+          setserverHidden("hidden");
+        }, [3000]);
+        setServerError(error.data.message);
+        console.log(error);
       }
     }
   };
@@ -39,6 +44,10 @@ const ProfileForm = ({ profile }) => {
           <Error message="Required Field Error : Input field is required. Please enter a value." />
         </div>
       )}
+      <div className={serverhidden}>
+        {Servererror.length > 0 && <Error message={Servererror} />}
+      </div>
+
       <h1 className="text-3xl text-gray-700 font-bold text-left mt-3">
         Profile Details
       </h1>
