@@ -1,16 +1,26 @@
 import { useState, useEffect } from "react";
-import { useDeletelinkMutation } from "../redux/linkServices";
+import {
+  useDeletelinkMutation,
+  useUpdatelinkMutation,
+} from "../redux/linkServices";
+import { validateObj } from "./helper/validate";
+import Error from "./helper/Error";
 
 /* eslint-disable react/prop-types */
-const InputLink = ({ input, index, setinputArr, inputArr }) => {
+const InputLink = ({ input, index, setinputArr, inputArr, refetch }) => {
   const [first, setFirst] = useState(true);
   const [loading, setLoading] = useState(false);
   const [deleteLink] = useDeletelinkMutation();
   const [data, setData] = useState({
     id: input.id,
     platform: input.platform !== "" ? input.platform : "github",
-    link: input.link,
+    url: input.url,
   });
+  let [hidden, setHidden] = useState("hidden");
+  let [error, setError] = useState(false);
+  let [validate, setvalidate] = useState("");
+
+  const [updateLink] = useUpdatelinkMutation();
 
   const handleChange = (e) => {
     setFirst(false);
@@ -21,21 +31,30 @@ const InputLink = ({ input, index, setinputArr, inputArr }) => {
   };
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      let arr = inputArr.map((a) => {
-        var returnValue = { ...a };
-
-        if (a.id == data.id) {
-          returnValue.platform = data.platform;
-          returnValue.link = data.link;
-        }
-
-        return returnValue;
-      });
+    const timeoutId = setTimeout(async () => {
       if (!first) {
-        setinputArr(arr);
+        let p = validateObj(data);
+        setvalidate(p);
+        if (p.length !== 0) {
+          setError(true);
+          setHidden("block");
+        } else {
+          setError(false);
+          setHidden("hidden");
+          try {
+            await updateLink({
+              id: data.id,
+              platform: data.platform,
+              url: data.url,
+            }).unwrap();
+            refetch();
+          } catch (error) {
+            setError(true);
+            console.log(error);
+          }
+        }
       }
-    }, 100);
+    }, 1500);
     return () => clearTimeout(timeoutId);
   }, [data]);
 
@@ -50,6 +69,7 @@ const InputLink = ({ input, index, setinputArr, inputArr }) => {
           let newArr = inputArr.filter((i) => i.id !== url.id);
           setinputArr(newArr);
           setLoading(false);
+          refetch();
         });
     } catch (error) {
       setLoading(false);
@@ -61,6 +81,17 @@ const InputLink = ({ input, index, setinputArr, inputArr }) => {
     <div className="text-center mt-10 text-red-400">Deleting...</div>
   ) : (
     <div className="mt-10">
+      {error && (
+        <h1 className={hidden}>
+          {validate.length !== 0 && (
+            <div>
+              <Error
+                message={`Invalid URL Error: ${validate} url is invalid. Please provide valide ${validate} url `}
+              />
+            </div>
+          )}
+        </h1>
+      )}
       <div className="flex justify-between">
         <h1 className="text-gray-500 font-bold ">Link {index + 1}</h1>
         <button className="text-gray-400" onClick={handleRemove}>
@@ -89,9 +120,9 @@ const InputLink = ({ input, index, setinputArr, inputArr }) => {
         <input
           className="w-full block p-2 mt-3 border-2 mb-3 rounded-lg"
           type="text"
-          name="link"
-          placeholder="Add Link"
-          value={data.link}
+          name="url"
+          placeholder="Add Url"
+          value={data.url}
           onChange={handleChange}
         />
       </div>

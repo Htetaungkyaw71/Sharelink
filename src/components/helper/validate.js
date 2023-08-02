@@ -34,3 +34,11 @@ export const validate = (inputArr) => {
   });
   return arr;
 };
+
+export const validateObj = (obj) => {
+  let p = "";
+  if (!isValidURL(obj.url, obj.platform)) {
+    p = obj.platform;
+  }
+  return p;
+};

@@ -8,7 +8,6 @@ export const linkServices = createApi({
     prepareHeaders: (headers) => {
       headers.set("Content-Type", "application/json");
       const user = loadState();
-      console.log(user);
       headers.set("Authorization", `Bearer ${user.token}`);
       return headers;
     },
@@ -41,17 +40,17 @@ export const linkServices = createApi({
       }),
       transformResponse: (response) => response,
     }),
-    // Updatelink: builder.mutation({
-    //   query: ({ id, name, email }) => ({
-    //     url: `link/${id}`,
-    //     method: "PUT",
-    //     body: {
-    //       name,
-    //       email,
-    //     },
-    //   }),
-    //   transformResponse: (response) => response,
-    // }),
+    Updatelink: builder.mutation({
+      query: ({ id, platform, url }) => ({
+        url: `links/${id}`,
+        method: "PUT",
+        body: {
+          platform,
+          url,
+        },
+      }),
+      transformResponse: (response) => response,
+    }),
   }),
 });
 
@@ -59,4 +58,5 @@ export const {
   useGetlinksQuery,
   useCreatelinkMutation,
   useDeletelinkMutation,
+  useUpdatelinkMutation,
 } = linkServices;

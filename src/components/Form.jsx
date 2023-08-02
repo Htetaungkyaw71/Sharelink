@@ -1,19 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import InputLink from "./InputLink";
-import Info from "./helper/Info";
 import Error from "./helper/Error";
-import { validate } from "./helper/validate";
 import { useCreatelinkMutation } from "../redux/linkServices";
 
-const Form = ({ links, userid }) => {
-  let [hidden, setHidden] = useState("hidden");
+const Form = ({ links, userid, refetch }) => {
   let [inputArr, setinputArr] = useState(links);
   console.log(inputArr);
   let [error, setError] = useState(false);
   let [loading, setLoading] = useState(false);
-  let [validateArr, setvalidateArr] = useState([]);
   const [createLink] = useCreatelinkMutation();
+
   const handleCreate = async () => {
     setLoading(true);
     try {
@@ -23,63 +20,20 @@ const Form = ({ links, userid }) => {
           const url = fulfilled.data;
           setinputArr((prev) => [...prev, url]);
           setLoading(false);
+          refetch();
         });
     } catch (error) {
       setLoading(false);
       setError(error.data.message);
     }
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const hasEmptyFields = inputArr.some(
-      (obj) => obj.platform === "" || obj.link === "",
-    );
-    if (hasEmptyFields) {
-      setError(hasEmptyFields);
-      setHidden("block");
-      setTimeout(() => {
-        setHidden("hidden");
-      }, [3000]);
-    } else {
-      let varr = validate(inputArr);
-      setvalidateArr(varr);
-      if (varr.length !== 0) {
-        setError(true);
-        setHidden("block");
-        setTimeout(() => {
-          setHidden("hidden");
-        }, [3000]);
-      } else {
-        setError(false);
-        setHidden("block");
-        setTimeout(() => {
-          setHidden("hidden");
-        }, [3000]);
-        console.log(inputArr);
-      }
-    }
-  };
 
   return (
     <div className="bg-white p-10 rounded-lg">
-      {error ? (
-        <h1 className={hidden}>
-          {validateArr.length !== 0 ? (
-            validateArr.map((i) => (
-              <div key={i}>
-                <Error
-                  message={`Invalid URL Error: ${i} url is invalid. Please provide valide ${i} url `}
-                />
-              </div>
-            ))
-          ) : (
-            <Error message="Required Field Error : Input field is required. Please enter a value." />
-          )}
+      {error && (
+        <h1>
+          <Error message={error} />
         </h1>
-      ) : (
-        <div className={hidden}>
-          <Info />
-        </div>
       )}
       <h1 className="text-3xl text-gray-700 font-bold text-left mt-3">
         Customize your links
@@ -108,17 +62,12 @@ const Form = ({ links, userid }) => {
                     setinputArr={setinputArr}
                     inputArr={inputArr}
                     userid={userid}
+                    refetch={refetch}
                   />
                 </div>
               ))}
             </div>
             <hr className="mt-10 mb-3" />
-            <button
-              onClick={handleSubmit}
-              className="p-2 bg-[#8d6ff8] text-white rounded-lg mt-4"
-            >
-              Save
-            </button>
           </>
         )}
       </form>
