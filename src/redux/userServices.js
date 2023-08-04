@@ -18,6 +18,15 @@ export const userServices = createApi({
       },
       transformResponse: (response) => response,
     }),
+    Getpreview: builder.query({
+      query: ({ name }) => {
+        return {
+          url: `preview/${name}`,
+          method: "GET",
+        };
+      },
+      transformResponse: (response) => response,
+    }),
     UpdateUser: builder.mutation({
       query: ({ id, name, email }) => ({
         url: `user/${id}`,
@@ -60,4 +69,5 @@ export const {
   useSignInMutation,
   useGetUserQuery,
   useUpdateUserMutation,
+  useGetpreviewQuery,
 } = userServices;

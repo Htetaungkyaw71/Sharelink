@@ -14,7 +14,8 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { useGetlinksQuery, useGetpreviewQuery } from "../redux/linkServices";
+import { useGetlinksQuery } from "../redux/linkServices";
+import { useGetpreviewQuery } from "../redux/UserServices";
 import Loading from "./Loading";
 import { useEffect } from "react";
 
@@ -40,23 +41,26 @@ const Preview = () => {
       refetch();
     }
   }, [links]);
-
   if (isLoading) {
     return <Loading />;
   }
 
-  let obj = data.data;
+  let obj = data?.data;
 
-  return (
+  return obj === null ? (
+    <h1 className="text-center text-2xl pt-48 text-[#8d6ff8]">Invalid URL</h1>
+  ) : (
     <div>
       <div className="h-60 bg-[#8F71F9] rounded-b-3xl  flex justify-center"></div>
       <div className="flex justify-center items-center -mt-24 mb-10">
         <div className="text-center flex justify-center items-center shadow-2xl rounded-[2rem] w-[272px] h-[420px] bg-gray-100">
           <div>
-            <h1 className="text-xl font-bold text-gray-500">{obj.name}</h1>
-            <h1 className="text-md font-semibold text-gray-400">{obj.email}</h1>
-            {obj.links.length < 4 ? (
-              obj.links.map((link) => (
+            <h1 className="text-xl font-bold text-gray-500">{obj?.name}</h1>
+            <h1 className="text-md font-semibold text-gray-400">
+              {obj?.email}
+            </h1>
+            {obj?.links.length < 4 ? (
+              obj?.links.map((link) => (
                 <a
                   key={link.id}
                   href={link.url}
@@ -78,7 +82,7 @@ const Preview = () => {
               ))
             ) : (
               <div className="flex gap-2 flex-wrap mx-5 ">
-                {obj.links.map((link) => (
+                {obj?.links.map((link) => (
                   <a
                     key={link.id}
                     href={link.url}
