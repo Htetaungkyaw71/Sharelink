@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/jsx-key */
 import { useParams } from "react-router-dom";
 
@@ -13,8 +14,9 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { useGetpreviewQuery } from "../redux/linkServices";
+import { useGetlinksQuery, useGetpreviewQuery } from "../redux/linkServices";
 import Loading from "./Loading";
+import { useEffect } from "react";
 
 const Preview = () => {
   let { name } = useParams();
@@ -29,7 +31,15 @@ const Preview = () => {
     pinterest: [<FaPinterest />, "bg-[#DF0022]"],
     dribbble: [<FaDribbble />, "bg-[#F082AC]"],
   };
-  const { data, isLoading } = useGetpreviewQuery({ name });
+
+  const { data, isLoading, refetch } = useGetpreviewQuery({ name });
+  const { data: links } = useGetlinksQuery();
+
+  useEffect(() => {
+    if (links) {
+      refetch();
+    }
+  }, [links]);
 
   if (isLoading) {
     return <Loading />;
@@ -54,7 +64,7 @@ const Preview = () => {
                   rel="noreferrer"
                   className={`${
                     p[link.platform][1]
-                  } p-3 rounded-lg mt-4 block w-full capitalize text-white flex items-center justify-between`}
+                  } p-3 rounded-lg mt-4 w-full capitalize text-white flex items-center justify-between`}
                 >
                   <span className="flex items-center">
                     {p[link.platform][0]}

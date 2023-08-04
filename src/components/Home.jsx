@@ -17,7 +17,7 @@ const Home = () => {
   const userobj = data?.data ?? {};
   return (
     <>
-      <Navbar />
+      <Navbar refetch={refetch} />
       <div className="grid grid-cols-1 container mx-auto mt-5 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-5 xl:grid-cols-5">
         <div className="col-span-2">
           <Mockup user={userobj} />

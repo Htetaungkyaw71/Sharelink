@@ -43,24 +43,25 @@ const Mockup = ({ user }) => {
               user.links.map(
                 (link) =>
                   link.url.length !== 0 && (
-                    <a
-                      key={link.id}
-                      href={link.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className={`${
-                        p[link.platform][1]
-                      } p-3 rounded-lg mt-4 block w-full capitalize text-white flex items-center justify-between`}
-                    >
-                      <span className="flex items-center">
-                        {p[link.platform][0]}
-                        <span className="ml-2">{link.platform}</span>
-                      </span>
+                    <div className="px-5" key={link.id}>
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`${
+                          p[link.platform][1]
+                        } p-3 rounded-lg mt-4  w-full text-center capitalize text-white flex items-center justify-between`}
+                      >
+                        <span className="flex items-center">
+                          {p[link.platform][0]}
+                          <span className="ml-2">{link.platform}</span>
+                        </span>
 
-                      <span>
-                        <AiOutlineArrowRight />
-                      </span>
-                    </a>
+                        <span className="ml-2">
+                          <AiOutlineArrowRight />
+                        </span>
+                      </a>
+                    </div>
                   ),
               )
             ) : (
