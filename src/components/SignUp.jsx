@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSignUpMutation } from "../redux/UserServices";
+import { useSignUpMutation } from "../redux/userServices";
 import { saveState } from "../redux/localStorage";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";

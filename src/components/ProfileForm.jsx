@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import Error from "./helper/Error";
-import { useUpdateUserMutation } from "../redux/UserServices";
+import { useUpdateUserMutation } from "../redux/userServices";
 
 const ProfileForm = ({ profile, refetch }) => {
   const [error, setError] = useState(false);

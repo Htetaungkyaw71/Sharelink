@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { useGetlinksQuery } from "../redux/linkServices";
-import { useGetpreviewQuery } from "../redux/UserServices";
+import { useGetpreviewQuery } from "../redux/userServices";
 import Loading from "./Loading";
 import { useEffect } from "react";
 

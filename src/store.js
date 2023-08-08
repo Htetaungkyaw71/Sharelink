@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { linkServices } from "./redux/linkServices";
-import { userServices } from "./redux/UserServices";
+import { userServices } from "./redux/userServices";
 
 export const store = configureStore({
   reducer: {
