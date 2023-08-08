@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
@@ -11,7 +11,7 @@ const Preview = lazy(() => import("./components/Preview"));
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/:name" element={<Preview />} />
@@ -35,7 +35,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Suspense>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
