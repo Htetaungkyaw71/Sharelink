@@ -30,6 +30,7 @@ const SignIn = () => {
           navigate("/");
         });
     } catch (error) {
+      console.log(error);
       setError(error.data.message);
     }
   };

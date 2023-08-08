@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userServices = createApi({
   reducerPath: "userServices",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001",
+    baseUrl: "https://sharelink-xcsw.onrender.com/",
     prepareHeaders: (headers) => {
       headers.set("Content-Type", "application/json");
       return headers;
@@ -14,6 +14,7 @@ export const userServices = createApi({
         return {
           url: `user/${id}`,
           method: "GET",
+          mode: "cors",
         };
       },
       transformResponse: (response) => response,
@@ -23,6 +24,7 @@ export const userServices = createApi({
         return {
           url: `preview/${name}`,
           method: "GET",
+          mode: "cors",
         };
       },
       transformResponse: (response) => response,
@@ -31,6 +33,7 @@ export const userServices = createApi({
       query: ({ id, name, email }) => ({
         url: `user/${id}`,
         method: "PUT",
+        mode: "cors",
         body: {
           name,
           email,
@@ -38,31 +41,11 @@ export const userServices = createApi({
       }),
       transformResponse: (response) => response,
     }),
-    UpdateImage: builder.mutation({
-      query: ({ id, image }) => {
-        // const formData = new FormData();
-        // formData.append("image", image);
-        console.log(image);
-        // console.log(formData);
-        return {
-          url: `user/image/${id}`,
-          method: "PUT",
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          body: { image },
-          formData: true,
-          transformResponse: (response) => {
-            console.log("API Response:", response);
-            return response;
-          },
-        };
-      },
-    }),
     SignIn: builder.mutation({
       query: ({ email, password }) => ({
         url: "signin",
         method: "POST",
+        mode: "cors",
         body: {
           email,
           password,
@@ -74,6 +57,7 @@ export const userServices = createApi({
       query: ({ name, email, password }) => ({
         url: "user",
         method: "POST",
+        mode: "cors",
         body: {
           name,
           email,
@@ -91,5 +75,4 @@ export const {
   useGetUserQuery,
   useUpdateUserMutation,
   useGetpreviewQuery,
-  useUpdateImageMutation,
 } = userServices;

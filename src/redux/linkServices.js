@@ -4,7 +4,7 @@ import { loadState } from "./localStorage";
 export const linkServices = createApi({
   reducerPath: "linkServices",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3001/api/",
+    baseUrl: "https://sharelink-xcsw.onrender.com/api/",
     prepareHeaders: (headers) => {
       headers.set("Content-Type", "application/json");
       const user = loadState();
@@ -18,6 +18,7 @@ export const linkServices = createApi({
         return {
           url: `links`,
           method: "GET",
+          mode: "cors",
         };
       },
       transformResponse: (response) => response,
@@ -28,6 +29,7 @@ export const linkServices = createApi({
       query: ({ platform, url }) => ({
         url: `links`,
         method: "POST",
+        mode: "cors",
         body: {
           platform,
           url,
@@ -39,6 +41,7 @@ export const linkServices = createApi({
       query: ({ id }) => ({
         url: `links/${id}`,
         method: "DELETE",
+        mode: "cors",
       }),
       transformResponse: (response) => response,
     }),
@@ -46,6 +49,7 @@ export const linkServices = createApi({
       query: ({ id, platform, url }) => ({
         url: `links/${id}`,
         method: "PUT",
+        mode: "cors",
         body: {
           platform,
           url,

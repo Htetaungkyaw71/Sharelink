@@ -29,7 +29,7 @@ const UpdateImg = ({ profile, refetch }) => {
           const formData = new FormData();
           formData.append("image", imgData);
           const response = await axios.put(
-            `http://localhost:3001/user/image/${id}`,
+            `https://sharelink-xcsw.onrender.com/user/image/${id}`,
             formData,
           );
           refetch();

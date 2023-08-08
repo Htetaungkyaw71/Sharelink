@@ -53,6 +53,13 @@ const InputLink = ({
               platform: data.platform,
               url: data.url,
             }).unwrap();
+            let res = inputArr.map((a) => {
+              return { ...a };
+            });
+
+            res.find((a) => a.id == data.id).platform = data.platform;
+            res.find((a) => a.id == data.id).url = data.url;
+            setinputArr(res);
             refetch();
           } catch (error) {
             setError(true);
@@ -74,8 +81,8 @@ const InputLink = ({
           const url = fulfilled.data;
           let newArr = inputArr.filter((i) => i.id !== url.id);
           setinputArr(newArr);
-          setDeloading(false);
           refetch();
+          setDeloading(false);
         });
     } catch (error) {
       setDeloading(false);
