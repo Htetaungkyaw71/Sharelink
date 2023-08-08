@@ -38,6 +38,27 @@ export const userServices = createApi({
       }),
       transformResponse: (response) => response,
     }),
+    UpdateImage: builder.mutation({
+      query: ({ id, image }) => {
+        // const formData = new FormData();
+        // formData.append("image", image);
+        console.log(image);
+        // console.log(formData);
+        return {
+          url: `user/image/${id}`,
+          method: "PUT",
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          body: { image },
+          formData: true,
+          transformResponse: (response) => {
+            console.log("API Response:", response);
+            return response;
+          },
+        };
+      },
+    }),
     SignIn: builder.mutation({
       query: ({ email, password }) => ({
         url: "signin",
@@ -70,4 +91,5 @@ export const {
   useGetUserQuery,
   useUpdateUserMutation,
   useGetpreviewQuery,
+  useUpdateImageMutation,
 } = userServices;

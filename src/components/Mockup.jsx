@@ -33,8 +33,13 @@ const Mockup = ({ user }) => {
         <div className="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[124px] rounded-l-lg"></div>
         <div className="h-[46px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -left-[17px] top-[178px] rounded-l-lg"></div>
         <div className="h-[64px] w-[3px] bg-gray-800 dark:bg-gray-800 absolute -right-[17px] top-[142px] rounded-r-lg"></div>
-        <div className="text-center flex justify-center items-center rounded-[2rem] w-full overflow-hidden w-[272px] h-[472px] bg-white dark:bg-gray-800">
-          <div>
+        <div className="text-center flex justify-center items-center rounded-[2rem] w-full overflow-hidden  h-[472px] bg-white dark:bg-gray-800">
+          <div className="text-center">
+            <img
+              src={user.img_url}
+              alt="profile"
+              className="w-32 h-32 rounded-full inline-block mb-2"
+            />
             <h1 className="text-xl font-bold text-gray-500">{user.name}</h1>
             <h1 className="text-md font-semibold text-gray-400">
               {user.email}
@@ -65,7 +70,7 @@ const Mockup = ({ user }) => {
                   ),
               )
             ) : (
-              <div className="flex gap-2 flex-wrap mx-5 ">
+              <div className="flex gap-2 flex-wrap justify-center mx-2 ">
                 {user.links.map(
                   (link) =>
                     link.url.length !== 0 && (

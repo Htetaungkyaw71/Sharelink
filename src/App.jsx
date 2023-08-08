@@ -32,7 +32,6 @@ function App() {
           />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-
           <Route path="/:name" element={<Preview />} />
         </Routes>
       </Suspense>

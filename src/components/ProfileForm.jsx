@@ -57,9 +57,9 @@ const ProfileForm = ({ profile, refetch }) => {
       <div className="mt-3">
         <form onSubmit={handleSubmit}>
           <div className="mt-5">
-            <label>Name</label>
+            <label className="mr-3">Name</label>
             <input
-              className="ml-10 p-1 border-2 focus:outline-[#8d6ff8] rounded-lg shadow-sm"
+              className="ml-0 sm:ml-0 md:ml-7 lg:ml-7 xl:ml-7 mt-2 p-1 border-2 focus:outline-[#8d6ff8] rounded-lg shadow-sm"
               type="text"
               name="name"
               value={userData.name}
@@ -69,11 +69,11 @@ const ProfileForm = ({ profile, refetch }) => {
             />
           </div>
           <div className="mt-5 mb-5">
-            <label>Email</label>
+            <label className="mr-3">Email</label>
             <input
               type="email"
               name="email"
-              className="ml-11 p-1 border-2 focus:outline-[#8d6ff8] rounded-lg shadow-sm"
+              className="ml-0 sm:ml-0 md:ml-7 lg:ml-7 xl:ml-7 mt-2 p-1 border-2 focus:outline-[#8d6ff8] rounded-lg shadow-sm"
               value={userData.email}
               onChange={(e) =>
                 setuserData((prev) => ({ ...prev, email: e.target.value }))

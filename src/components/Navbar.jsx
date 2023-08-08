@@ -5,11 +5,10 @@ import { CgProfile } from "react-icons/cg";
 import { GoSignOut } from "react-icons/go";
 import img from "../assets/link.png";
 import { AiFillEye } from "react-icons/ai";
-import { loadState } from "../redux/localStorage";
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
   const navigate = useNavigate();
-  const user = loadState();
+
   return (
     <>
       <div className="flex justify-between p-3 bg-white mt-3 items-center container mx-auto rounded-lg text-black">
@@ -54,7 +53,6 @@ const Navbar = () => {
           <button
             onClick={() => {
               localStorage.removeItem("data");
-
               navigate("/signin");
             }}
             className="border-2 border-[#8d6ff8] py-1 px-2 rounded-lg text-[#8d6ff8] font-semibold hover:bg-[#8d6ff8] hover:text-white hover:duration-500 "

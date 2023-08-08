@@ -24,7 +24,7 @@ const SignIn = () => {
             ...fulfilled.user,
             token: fulfilled.token,
           };
-
+          localStorage.removeItem("data");
           saveState(data);
           setError("");
           navigate("/");

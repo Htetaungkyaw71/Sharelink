@@ -8,6 +8,7 @@ const Form = ({ links, userid, refetch }) => {
   let [inputArr, setinputArr] = useState(links);
   let [error, setError] = useState(false);
   let [loading, setLoading] = useState(false);
+  let [deloading, setDeloading] = useState(false);
   const [createLink] = useCreatelinkMutation();
 
   const handleCreate = async () => {
@@ -48,27 +49,31 @@ const Form = ({ links, userid, refetch }) => {
       >
         {loading ? "Loading..." : "+Add new link"}
       </button>
-
-      <form>
-        {inputArr.length !== 0 && (
-          <>
-            <div>
-              {inputArr.map((input, index) => (
-                <div key={input.id}>
-                  <InputLink
-                    input={input}
-                    index={index}
-                    setinputArr={setinputArr}
-                    inputArr={inputArr}
-                    userid={userid}
-                    refetch={refetch}
-                  />
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </form>
+      {deloading ? (
+        <div className="text-center mt-28 text-red-400">Deleting...</div>
+      ) : (
+        <form>
+          {inputArr.length !== 0 && (
+            <>
+              <div>
+                {inputArr.map((input, index) => (
+                  <div key={input.id}>
+                    <InputLink
+                      input={input}
+                      index={index}
+                      setinputArr={setinputArr}
+                      inputArr={inputArr}
+                      userid={userid}
+                      refetch={refetch}
+                      setDeloading={setDeloading}
+                    />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </form>
+      )}
     </div>
   );
 };

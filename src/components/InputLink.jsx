@@ -7,9 +7,15 @@ import { validateObj } from "./helper/validate";
 import Error from "./helper/Error";
 
 /* eslint-disable react/prop-types */
-const InputLink = ({ input, index, setinputArr, inputArr, refetch }) => {
+const InputLink = ({
+  input,
+  index,
+  setinputArr,
+  inputArr,
+  refetch,
+  setDeloading,
+}) => {
   const [first, setFirst] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [deleteLink] = useDeletelinkMutation();
   const [data, setData] = useState({
     id: input.id,
@@ -60,7 +66,7 @@ const InputLink = ({ input, index, setinputArr, inputArr, refetch }) => {
 
   const handleRemove = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setDeloading(true);
     try {
       await deleteLink({ id: input.id })
         .unwrap()
@@ -68,18 +74,16 @@ const InputLink = ({ input, index, setinputArr, inputArr, refetch }) => {
           const url = fulfilled.data;
           let newArr = inputArr.filter((i) => i.id !== url.id);
           setinputArr(newArr);
-          setLoading(false);
+          setDeloading(false);
           refetch();
         });
     } catch (error) {
-      setLoading(false);
+      setDeloading(false);
       console.log(error);
     }
   };
 
-  return loading ? (
-    <div className="text-center mt-10 text-red-400">Deleting...</div>
-  ) : (
+  return (
     <div className="mt-10">
       {error && (
         <h1 className={hidden}>
@@ -94,7 +98,7 @@ const InputLink = ({ input, index, setinputArr, inputArr, refetch }) => {
       )}
       <div className="flex justify-between">
         <h1 className="text-gray-500 font-bold ">Link {index + 1}</h1>
-        <button className="text-gray-400" onClick={handleRemove}>
+        <button className={`text-gray-400 `} onClick={handleRemove}>
           Remove
         </button>
       </div>
