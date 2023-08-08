@@ -14,6 +14,7 @@ function App() {
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
         <Routes>
+          <Route path="/:name" element={<Preview />} />
           <Route
             path="/"
             element={
@@ -32,7 +33,6 @@ function App() {
           />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/:name" element={<Preview />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

@@ -14,10 +14,10 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { useGetlinksQuery } from "../redux/linkServices";
+// import { useGetlinksQuery } from "../redux/linkServices";
 import { useGetpreviewQuery } from "../redux/userServices";
 import Loading from "./Loading";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 const Preview = () => {
   let { name } = useParams();
@@ -33,14 +33,14 @@ const Preview = () => {
     dribbble: [<FaDribbble />, "bg-[#F082AC]"],
   };
 
-  const { data, isLoading, refetch } = useGetpreviewQuery({ name });
-  const { data: links } = useGetlinksQuery();
+  const { data, isLoading } = useGetpreviewQuery({ name });
+  // const { data: links } = useGetlinksQuery();
 
-  useEffect(() => {
-    if (links) {
-      refetch();
-    }
-  }, [links]);
+  // useEffect(() => {
+  //   if (links) {
+  //     refetch();
+  //   }
+  // }, [links]);
   if (isLoading) {
     return <Loading />;
   }
