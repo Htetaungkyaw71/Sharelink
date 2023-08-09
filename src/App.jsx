@@ -11,7 +11,7 @@ const Preview = lazy(() => import("./components/Preview"));
 
 function App() {
   return (
-    <BrowserRouter basename="/">
+    <BrowserRouter>
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/:name" element={<Preview />} />
