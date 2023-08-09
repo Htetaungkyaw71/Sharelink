@@ -11,7 +11,7 @@ Link-Sharing app. Users can create, read, update, delete links, and see previews
 git clone git@github.com:Htetaungkyaw71/portfolio.git
 ```
 ### Screenshot
-![This is an image](./petfinder.png)
+![This is an image](./link.png)
 
 ### Live demo
 
