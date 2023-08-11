@@ -4,7 +4,7 @@ Link-sharing app
 
 ## Description
 
-Link-Sharing app. Users can create, read, update, delete links, and see previews in the mobile mockup. Authentication included.
+Link-Sharing application, where users can seamlessly manage links — creating, reading, updating, and deleting while enjoying mobile previews. With integrated authentication, this app ensures a secure and user-friendly link sharing experience.
 
 ## Getting Started
 ```
